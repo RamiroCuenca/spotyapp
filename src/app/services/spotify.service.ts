@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; // Do not fotget to import it a app.module.ts
 
+import { map } from 'rxjs/operators';
+
+
 @Injectable({
   providedIn: 'root'
   // This allow as to use or call the service with out having the need of declarate it at app.module.ts
@@ -29,18 +32,22 @@ export class SpotifyService {
   getNewReleases()
   {
     const headers = new HttpHeaders({
-      'Authorization' : 'Bearer BQDjZXavZNKETgSAh0tpFwCKEqMwoESkRRJqqmdqlx5r3FMgfOLSFxUmypinrMyfjJdrDdh79rem1AI91VU'
+      'Authorization' : 'Bearer BQBi-PYTxuxQ0IC3JANneIzp1u055XqqqDmNrZUBu4ccgHtDBtQsH5iuCb_BIuEe3fqZpNUJWxw-kVZNAHQ'
     });
 
-    return  this.http.get('https://api.spotify.com/v1/browse/new-releases', { headers });
+    return  this.http.get('https://api.spotify.com/v1/browse/new-releases', { headers })
+              .pipe( map( data => {
+                return data['albums'].items;
+              } ));
   }
 
   getArtists( record: string)
   {
     const headers = new HttpHeaders({
-      'Authorization' : 'Bearer BQDjZXavZNKETgSAh0tpFwCKEqMwoESkRRJqqmdqlx5r3FMgfOLSFxUmypinrMyfjJdrDdh79rem1AI91VU'
+      'Authorization' : 'Bearer BQBi-PYTxuxQ0IC3JANneIzp1u055XqqqDmNrZUBu4ccgHtDBtQsH5iuCb_BIuEe3fqZpNUJWxw-kVZNAHQ'
     });
 
-    return  this.http.get(`https://api.spotify.com/v1/search?q=${ record }&type=artist&market=ES&limit=15`, { headers });
+    return  this.http.get(`https://api.spotify.com/v1/search?q=${ record }&type=artist&market=ES&limit=15`, { headers })
+              .pipe( map( data => { return data['artists'].items } ) );
   }
 }

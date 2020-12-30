@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
       // .subscribe( data => {console.log(data)});
       .subscribe( data =>
         {
-          this.artists = data.artists.items ;
+          this.artists = data ;
         });
 
   }
