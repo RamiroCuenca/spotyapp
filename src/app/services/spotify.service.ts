@@ -29,25 +29,26 @@ export class SpotifyService {
   //   token = this.http.get('https://accounts.spotify.com/api/token?=client_credentials', { headers }).access_token;    
   // }
 
-  getNewReleases()
+  getQuery( query: string )
   {
     const headers = new HttpHeaders({
       'Authorization' : 'Bearer BQBi-PYTxuxQ0IC3JANneIzp1u055XqqqDmNrZUBu4ccgHtDBtQsH5iuCb_BIuEe3fqZpNUJWxw-kVZNAHQ'
     });
 
-    return  this.http.get('https://api.spotify.com/v1/browse/new-releases', { headers })
-              .pipe( map( data => {
-                return data['albums'].items;
-              } ));
+    const url = `https://api.spotify.com/v1/${ query }`;
+
+    return this.http.get( url , { headers });
+  }
+
+  getNewReleases()
+  {
+    return this.getQuery( 'browse/new-releases' )              
+              .pipe( map( data => data['albums'].items ));
   }
 
   getArtists( record: string)
   {
-    const headers = new HttpHeaders({
-      'Authorization' : 'Bearer BQBi-PYTxuxQ0IC3JANneIzp1u055XqqqDmNrZUBu4ccgHtDBtQsH5iuCb_BIuEe3fqZpNUJWxw-kVZNAHQ'
-    });
-
-    return  this.http.get(`https://api.spotify.com/v1/search?q=${ record }&type=artist&market=ES&limit=15`, { headers })
-              .pipe( map( data => { return data['artists'].items } ) );
+    return this.getQuery( `search?q=${ record }&type=artist&market=ES&limit=15` )
+              .pipe( map( data => data['artists'].items ) );
   }
 }
