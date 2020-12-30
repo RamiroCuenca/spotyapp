@@ -14,6 +14,10 @@ export class HomeComponent implements OnInit {
 
   newSongs: any[] = [];
 
+  // interface Song {
+    
+  // }
+
   constructor(
     private spotify: SpotifyService,
   ) {
@@ -24,9 +28,6 @@ export class HomeComponent implements OnInit {
       this.newSongs = data.albums.items;
       console.log(this.newSongs);
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }
